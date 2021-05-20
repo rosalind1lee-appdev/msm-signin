@@ -17,23 +17,17 @@
         </a>
       </div>
     </div>
-    <% if @current_user != nil%>
-      <% bm = Bookmark.where({ :user_id => @current_user.id }).where({ :movie_id => @the_movie_id }).at(0) %>
-      <% if bm == nil %>
-        hello
+    <% if @current_user != nil %>
+      <% if @bm %>
+        <a href="/delete_bookmark/<%=@bm.id%>" method="get">
+            Un-bookmark
+        </a>
+      <% else %>
         <form action="/insert_bookmark" method="post">
           <input type="hidden" value="<%=@the_movie.id%>" id="movie_id_box" name="query_movie_id" class="form-control">
           <input type="hidden" id="user_id_box" name="query_user_id" value="<%=@current_user.id%>">
           <button class="btn btn-block btn-outline-secondary">
-            Bookmark this movie!
-          </button>
-        </form>
-      <% else %>
-        <form action="/delete_bookmark" method="post">
-          <input type="hidden" value="<%=@the_movie.id%>" id="movie_id_box" name="query_movie_id" class="form-control">
-          <input type="hidden" id="user_id_box" name="query_user_id" value="<%=@current_user.id%>">
-          <button class="btn btn-block btn-outline-secondary">
-            Unbookmark this movie!
+            Bookmark this movie
           </button>
         </form>
       <% end %>
