@@ -1,6 +1,10 @@
 class BookmarksController < ApplicationController
   def index
-    matching_bookmarks = Bookmark.all
+    matching_movies = Movie.all
+
+    @list_of_movies = matching_movies.order({ :created_at => :desc })
+
+    matching_bookmarks = Bookmark.where({ :user_id => @current_user.id })
 
     @list_of_bookmarks = matching_bookmarks.order({ :created_at => :desc })
 
