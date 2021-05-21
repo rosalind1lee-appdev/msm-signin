@@ -22,15 +22,19 @@ class BookmarksController < ApplicationController
   end
 
   def create
-    the_bookmark = Bookmark.new
-    the_bookmark.user_id = params.fetch("query_user_id")
-    the_bookmark.movie_id = params.fetch("query_movie_id")
+    the_user_id = params.fetch("query_user_id")
+    the_movie_id = params.fetch("query_movie_id")
 
-    if the_bookmark.valid?
+    bm = Bookmark.where({ :user_id => the_user_id }).where({ :movie_id => the_movie_id}).at(0)
+
+    if bm == nil
+      the_bookmark = Bookmark.new
+      the_bookmark.user_id = the_user_id
+      the_bookmark.movie_id = the_movie_id
       the_bookmark.save
       redirect_to("/bookmarks", { :notice => "Bookmark created successfully." })
     else
-      redirect_to("/bookmarks", { :notice => "Bookmark failed to create successfully." })
+      redirect_to("/bookmarks", { :alert => "Bookmark failed to create successfully." })
     end
   end
 
